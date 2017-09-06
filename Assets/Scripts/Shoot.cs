@@ -9,6 +9,7 @@ public class Shoot : MonoBehaviour
     public float projectileSpeed = 30f;
     public float shootRate = 0.2f;
     private float shootTimer = 0f;
+    private Ray2D shootRay;
 
     void Start()
     {
@@ -30,5 +31,12 @@ public class Shoot : MonoBehaviour
         projectile.transform.position = transform.position;
         Rigidbody2D rigid = projectile.GetComponent<Rigidbody2D>();
         rigid.AddForce(transform.right * projectileSpeed, ForceMode2D.Impulse);
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(shootRay.origin, shootRay.origin + shootRay.direction * 1000f);
+        Gizmos.color = Color.red;
+
     }
 }
