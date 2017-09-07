@@ -39,10 +39,6 @@ public class CharacterMovement : MonoBehaviour
                 Flip();
             }
         }
-        if (!Input.GetKey(KeyCode.A))
-        {
-            anim.SetFloat("Speed", 0);
-        }
         if (Input.GetKey(KeyCode.D))
         {
             anim.SetFloat("Speed", movementSpeed);
@@ -53,7 +49,7 @@ public class CharacterMovement : MonoBehaviour
                 Flip();
             }
         }
-        if (!Input.GetKey(KeyCode.D))
+        if (!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
         {
             anim.SetFloat("Speed", 0);
         }
