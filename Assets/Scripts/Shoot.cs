@@ -11,10 +11,6 @@ public class Shoot : MonoBehaviour
     private float shootTimer = 0f;
     private Ray2D shootRay;
 
-    void Start()
-    {
-    }
-
     void Update()
     {
         shootTimer += Time.deltaTime;

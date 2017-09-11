@@ -4,8 +4,22 @@ using UnityEngine;
 
 public class DestroyProjectile : MonoBehaviour {
 
-    void OnCollisionEnter2D(Collision2D collision)
+    public Transform partPrefab;
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Destroy(gameObject);
+        if (GameObject.FindGameObjectWithTag("Enemy"))
+        {
+            Destroy(this.gameObject);
+            Transform part = Instantiate(partPrefab, transform.position, transform.rotation);
+            Destroy(part.gameObject, 0.5f);
+        }
+
+        if (GameObject.FindGameObjectWithTag("Obstacle"))
+        {
+            Destroy(this.gameObject);
+            Transform part = Instantiate(partPrefab, transform.position, transform.rotation);
+            Destroy(part.gameObject,0.5f);
+        }
     }
 }

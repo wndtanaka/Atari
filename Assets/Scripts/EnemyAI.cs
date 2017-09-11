@@ -21,7 +21,7 @@ public class EnemyAI : MonoBehaviour
     public Path path;
 
     // The AI's speed per sec
-    public float speed = 300f;
+    public float speed = 500f;
     public ForceMode2D fMode;
 
     [HideInInspector]
@@ -33,14 +33,20 @@ public class EnemyAI : MonoBehaviour
     // the waypoint we are currently moving towards
     private int currentWayPoint = 0;
 
-    private void Start()
+    private bool searchingForPlayer = false;
+
+    void Start()
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
 
         if (target == null)
         {
-            Debug.LogError("No Player Found");
+            if(!searchingForPlayer)
+            {
+                searchingForPlayer = true;
+                StartCoroutine(SearchForPlayer());
+            }
             return;
         }
         // Start a new path to the target position, return the result to the OnPathComplete method
@@ -50,7 +56,7 @@ public class EnemyAI : MonoBehaviour
     }
     public void OnPathComplete(Path p)
     {
-        Debug.Log("We got a path. Did it have an errpr? " + p.error);
+        //Debug.Log("We got a path. Did it have an error? " + p.error);
         if (!p.error)
         {
             path = p;
@@ -58,11 +64,32 @@ public class EnemyAI : MonoBehaviour
             currentWayPoint = 0;
         }
     }
+
+    IEnumerator SearchForPlayer()
+    {
+        GameObject result =  GameObject.FindGameObjectWithTag("Player");
+        if (result == null)
+        {
+            yield return new WaitForSeconds(0.5f);
+            StartCoroutine(SearchForPlayer());
+        }
+        else
+        {
+            target = result.transform;
+            searchingForPlayer = false;
+            StartCoroutine(UpdatePath());
+        }
+    }
     IEnumerator UpdatePath()
     {
         if (target == null)
         {
-            // TODO: Insert a player search here
+            if (!searchingForPlayer)
+            {
+                searchingForPlayer = true;
+                StartCoroutine(SearchForPlayer());
+            }
+            yield return false;
         }
         // Start a new path to the target position, return the result to the OnPathComplete method
         seeker.StartPath(transform.position, target.position, OnPathComplete);
@@ -70,11 +97,16 @@ public class EnemyAI : MonoBehaviour
         yield return new WaitForSeconds(1f / updateRate);
         StartCoroutine(UpdatePath());
     }
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         if (target == null)
         {
-            // TODO: Insert a player search here
+            if (!searchingForPlayer)
+            {
+                searchingForPlayer = true;
+                StartCoroutine(SearchForPlayer());
+            }
+            return;
         }
 
         // TODO: Always look at player?
@@ -89,10 +121,11 @@ public class EnemyAI : MonoBehaviour
             {
                 return;
             }
-            Debug.Log("End of path reached.");
+            //Debug.Log("End of path reached.");
             pathIsEnded = true;
             return;
         }
+        StartCoroutine(SearchForPlayer());
         pathIsEnded = false;
 
         // Direction to the next waypoint

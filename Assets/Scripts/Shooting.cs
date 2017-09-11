@@ -5,7 +5,7 @@ using UnityEngine;
 public class Shooting : MonoBehaviour
 {
     public float fireRate = 0;
-    public float damage = 10f;
+    public int damage = 10;
     public LayerMask whatToHit;
     public Transform bulletTrailPrefab;
     public Transform muzzlePrefab;
@@ -52,12 +52,18 @@ public class Shooting : MonoBehaviour
         if (hit.collider != null)
         {
             Debug.DrawLine(firePointPosition, hit.point, Color.red);
-            Debug.Log("You hit" + hit.collider.name + " and did " + damage + " damage.");
+            Enemy enemy = hit.collider.GetComponent<Enemy>();
+            if(enemy != null)
+            {
+                enemy.DamageEnemy(damage);
+                Debug.Log("You hit" + hit.collider.name + " and did " + damage + " damage.");
+
+            }
         }
     }
     IEnumerator Effect()
     {
-        Instantiate(bulletTrailPrefab,firePoint.position,firePoint.rotation);
+        Transform trail = Instantiate(bulletTrailPrefab,firePoint.position,firePoint.rotation) as Transform;
         Transform clone = Instantiate(muzzlePrefab, firePoint.position, firePoint.rotation) as Transform;
         clone.parent = firePoint;
         float size = Random.Range(0.6f,1f);
