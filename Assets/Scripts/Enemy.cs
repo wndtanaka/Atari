@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour
     }
 
     public EnemyStats enemyStats = new EnemyStats();
+    public static int score = 0;
 
     public Transform deathParticles;
 
@@ -48,6 +49,7 @@ public class Enemy : MonoBehaviour
         if (enemyStats.curHealth <= 0)
         {
             GameManager.KillEnemy(this);
+            score++;
         }
         if (statusIndicator != null)
         {

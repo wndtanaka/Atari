@@ -43,7 +43,6 @@ public class CharacterMovement : MonoBehaviour
         {
             anim.SetFloat("Speed", movementSpeed);
             transform.Translate(Vector2.right * movementSpeed * Time.deltaTime);
-            //transform.eulerAngles = new Vector2(0, 0);
             if (!facingRight)
             {
                 Flip();

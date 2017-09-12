@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
     public static GameManager gm;
     public int spawnDelay = 3;
+
+    public int score= 0;
 
     public Transform playerPrefab;
     public Transform spawnPoint;
@@ -25,14 +26,17 @@ public class GameManager : MonoBehaviour
         Debug.Log("Respawning");
         yield return new WaitForSeconds(spawnDelay);
 
-        Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
-        Instantiate(spawnPrefab, spawnPoint.position, spawnPoint.rotation);
+        //Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
+        Transform spawnParticles =  Instantiate(spawnPrefab, spawnPoint.position, spawnPoint.rotation);
+        Destroy(spawnParticles.gameObject, 1f);
     }
 
     public static void KillPlayer(Player p)
     {
-        Destroy(p.gameObject);
+        // Reset the player
+        //Destroy(p.gameObject);
         gm.StartCoroutine(gm.RespawnPlayer());
+        p.Reset();
     }
 
     public static void KillEnemy(Enemy e)

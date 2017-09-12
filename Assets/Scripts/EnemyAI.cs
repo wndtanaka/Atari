@@ -56,7 +56,6 @@ public class EnemyAI : MonoBehaviour
     }
     public void OnPathComplete(Path p)
     {
-        //Debug.Log("We got a path. Did it have an error? " + p.error);
         if (!p.error)
         {
             path = p;
@@ -89,12 +88,10 @@ public class EnemyAI : MonoBehaviour
                 searchingForPlayer = true;
                 StartCoroutine(SearchForPlayer());
             }
-            yield return false;
         }
-        // Start a new path to the target position, return the result to the OnPathComplete method
         seeker.StartPath(transform.position, target.position, OnPathComplete);
-
-        yield return new WaitForSeconds(1f / updateRate);
+        
+        yield return new WaitForSeconds(0.5f / updateRate);
         StartCoroutine(UpdatePath());
     }
     void FixedUpdate()
