@@ -91,7 +91,7 @@ public class EnemyAI : MonoBehaviour
         }
         seeker.StartPath(transform.position, target.position, OnPathComplete);
         
-        yield return new WaitForSeconds(0.5f / updateRate);
+        yield return new WaitForSeconds(1f / updateRate);
         StartCoroutine(UpdatePath());
     }
     void FixedUpdate()

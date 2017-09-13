@@ -21,6 +21,7 @@ public class ArmRotation : MonoBehaviour
 
         if (sprite != null)
         {
+            // rotate the arm
             if (Input.GetKey(KeyCode.A))
             {
                 sprite.flipY = true;

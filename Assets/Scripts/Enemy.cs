@@ -16,14 +16,14 @@ public class Enemy : MonoBehaviour
             set { _curHealth = Mathf.Clamp(value, 0, maxHealth); }
         }
 
-        public int damage = 25;
+
 
         public void Init()
         {
             curHealth = maxHealth;
         }
     }
-
+    int damage = 5;
     public EnemyStats enemyStats = new EnemyStats();
     public static int score = 0;
 
@@ -42,7 +42,25 @@ public class Enemy : MonoBehaviour
             statusIndicator.SetHealth(enemyStats.curHealth, enemyStats.maxHealth);
         }
     }
-
+    void Update()
+    {
+        if (GameManager.gm.score >= 100) // damage modifier
+        {
+            damage = 10;
+        }
+        if (GameManager.gm.score >= 250)
+        {
+            damage = 15;
+        }
+        if (GameManager.gm.score >= 500)
+        {
+            damage = 20;
+        }
+        if (GameManager.gm.score >= 1000)
+        {
+            damage = 25;
+        }
+    }
     public void DamageEnemy(int damage)
     {
         enemyStats.curHealth -= damage;
@@ -58,10 +76,11 @@ public class Enemy : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
+        // enemies will self destruct when hit player, and deal damage to player
         Player player = collision.collider.GetComponent<Player>();
         if (player != null)
         {
-            player.DamagePlayer(enemyStats.damage);
+            player.DamagePlayer(damage);
             DamageEnemy(999);
         }
     }

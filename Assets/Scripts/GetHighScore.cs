@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScoreBoard : MonoBehaviour
+public class GetHighScore : MonoBehaviour
 {
-    private Text scoreBoard;
+    private Text lastScore;
 
     void Start()
     {
-        scoreBoard = GetComponent<Text>();
+        lastScore = GetComponent<Text>();
     }
     void Update()
     {
@@ -17,6 +17,6 @@ public class ScoreBoard : MonoBehaviour
     }
     void Score()
     {
-        scoreBoard.text = "Score :" + GameManager.gm.score;
+        lastScore.text = "Your Score :" + GameManager.gm.lastScore; // just creating high score
     }
 }

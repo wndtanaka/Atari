@@ -26,15 +26,15 @@ public class Player : MonoBehaviour {
     public int fallBoundary = -20;
 
     // Record the position at Start()
-    public Vector3 startPos;
-    public Transform playerSpawner;
+    Vector3 startPos;
 
     [SerializeField]
     private StatusIndicator statusIndicator;
 
     private void Start()
     {
-        
+        GameManager.player = this;
+        startPos = transform.position;
         playerStats.Init();
         if (statusIndicator != null)
         {
@@ -44,13 +44,12 @@ public class Player : MonoBehaviour {
     void Update()
     {
         if (transform.position.y <= fallBoundary)
-            DamagePlayer(9999999);
+            DamagePlayer(9999);
     }
 
     public void Reset()
     {
-        startPos = playerSpawner.transform.position; 
-        playerStats.curHealth = playerStats.maxHealth;
+        transform.position = startPos; // respawning to start position
     }
 
     public void DamagePlayer(int damage)

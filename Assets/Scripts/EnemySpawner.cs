@@ -9,10 +9,18 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemyPrefab;
 
     private int waveTime;
+    Player player;
 
-    private void Start()
+    void Start()
     {
-        InvokeRepeating("Spawn", 0, 1);
+        InvokeRepeating("Spawn", 0, 1);        
+    }
+    void Update()
+    {
+        if (player.gameObject.activeInHierarchy == false)
+        {
+            CancelInvoke();
+        }
     }
     void Spawn()
     {
